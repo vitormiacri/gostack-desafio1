@@ -62,8 +62,12 @@ app.put('/repositories/:id', checkRepositoryExists, (request, response) => {
   return response.status(200).json(repository);
 });
 
-app.delete("/repositories/:id", (request, response) => {
-  // TODO
+app.delete('/repositories/:id', checkRepositoryExists, (request, response) => {
+  const { repositoryIndex } = request;
+
+  repositories.splice(repositoryIndex, 1);
+
+  return response.status(204).send();
 });
 
 app.post("/repositories/:id/like", (request, response) => {
