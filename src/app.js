@@ -70,8 +70,16 @@ app.delete('/repositories/:id', checkRepositoryExists, (request, response) => {
   return response.status(204).send();
 });
 
-app.post("/repositories/:id/like", (request, response) => {
-  // TODO
-});
+app.post(
+  '/repositories/:id/like',
+  checkRepositoryExists,
+  (request, response) => {
+    const { repositoryIndex } = request;
+
+    repositories[repositoryIndex].likes += 1;
+
+    return response.status(200).json(repositories[repositoryIndex]);
+  }
+);
 
 module.exports = app;
