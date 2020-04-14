@@ -46,8 +46,20 @@ app.post('/repositories', (request, response) => {
   return response.status(201).json(repository);
 });
 
-app.put("/repositories/:id", (request, response) => {
-  // TODO
+app.put('/repositories/:id', checkRepositoryExists, (request, response) => {
+  const { repositoryIndex } = request;
+  const { url, title, techs } = request.body;
+
+  const repository = {
+    ...repositories[repositoryIndex],
+    url,
+    title,
+    techs,
+  };
+
+  repositories[repositoryIndex] = repository;
+
+  return response.status(200).json(repository);
 });
 
 app.delete("/repositories/:id", (request, response) => {
