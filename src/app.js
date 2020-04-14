@@ -8,6 +8,22 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
+function checkRepositoryExists(request, response, next) {
+  const { id } = request.params;
+
+  const repositoryIndex = repositories.findIndex(
+    (repository) => repository.id === id
+  );
+
+  if (repositoryIndex < 0) {
+    return response.status(400).json({ error: 'Repositório não encontrado' });
+  }
+
+  request.repositoryIndex = repositoryIndex;
+
+  return next();
+}
+
 const repositories = [];
 
 app.get('/repositories', (request, response) => {
